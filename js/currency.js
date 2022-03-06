@@ -1,7 +1,7 @@
 class Currency {
 	static url = "https://www.cbr-xml-daily.ru/latest.js";
 
-	static async getObjectValues( requestTypes ) {
+	static async getValues( requestTypes ) {
 		try {
 			const data = await fetch( "https://www.cbr-xml-daily.ru/latest.js" );
 			const { rates } = await data.json();

@@ -10,7 +10,7 @@ window.onload = async() => {
 	const selectedCurrencies = ["RUB", "USD"]; // Выбранные валюты в 1 и 2 селектах соответственно
 	
 	const requestTypes = ["USD", "EUR", "KZT", "INR", "KRW"]; // Запрашиваемые валюты
-	const currencies = await Currency.getObjectValues( requestTypes );
+	const currencies = await Currency.getValues( requestTypes );
 
 	converter.loading.setAttribute( "style", "display: none" );
 
@@ -21,7 +21,9 @@ window.onload = async() => {
 		// Моя механика конвертации: введенное значение конвертирую в рубли, а из рублей в новую валюту.
 
 		const _index = +!index;
-		converter.inputs[_index].value = ( convertToRUB( selectedCurrencies[index], value ) / currencies[selectedCurrencies[_index]] ).toFixed( 2 );
+		const convertedValue = convertToRUB( selectedCurrencies[index], value ) / currencies[selectedCurrencies[_index]];
+
+		converter.inputs[_index].value = convertedValue.toFixed( 2 );
 	};
 
 
@@ -34,7 +36,8 @@ window.onload = async() => {
 			// они нам не нужны. Но этот перебор и так их не перебирает.
 			// Можно сделать тут console.log( key ), мы увидим только собственные ключи данного объекта.
 			if (Object.hasOwnProperty.call( currencies, key )) {
-				let newItem = document.createElement( "li" );
+				const newItem = document.createElement( "li" );
+				
 				newItem.classList.add( "converter-select__item" );
 				newItem.innerHTML = key;
 
