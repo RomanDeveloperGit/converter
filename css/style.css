@@ -19,6 +19,12 @@ body {
 
 
 
+.converter__loading {
+	font-size: 20px;
+	
+	margin-bottom: 30px;
+}
+
 .converter__item + .converter__item {
 	margin-top: 40px;
 }
@@ -30,7 +36,8 @@ body {
 }
 
 .converter__input {
-	width: 250px;
+	width: 100%;
+	max-width: 250px;
 
 	font-size: 36px;
 
