@@ -23,7 +23,7 @@ window.onload = async() => {
 		const _index = +!index;
 		const convertedValue = convertToRUB( selectedCurrencies[index], value ) / currencies[selectedCurrencies[_index]];
 
-		converter.inputs[_index].value = convertedValue.toFixed( 2 );
+		converter.inputs[_index].value = parseFloat( convertedValue.toFixed( 2 ) );
 	};
 
 
