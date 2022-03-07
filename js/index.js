@@ -1,40 +1,28 @@
 window.onload = async() => {
 	const converter = {
-		loading: document.querySelector( ".converter__loading" ),
 		inputs: document.querySelectorAll( ".converter__input" ),
 		selects: document.querySelectorAll( ".converter-select" ),
 		currentItemTexts: document.querySelectorAll( ".converter-select__current-text" ),
 		itemBoxes: document.querySelectorAll( ".converter-select__item-box" )
 	};
 
-	const selectedCurrencies = ["RUB", "USD"]; // Выбранные валюты в 1 и 2 селектах соответственно
+	const selectedCurrencies = ["RUB", "USD"];
 	
-	const requestTypes = ["USD", "EUR", "KZT", "INR", "KRW"]; // Запрашиваемые валюты
-	const currencies = await Currency.getValues( requestTypes );
-
-	converter.loading.setAttribute( "style", "display: none" );
-
-
+	const requestTypes = ["USD", "EUR", "KZT", "INR", "KRW"];
+	const currencies = await Currency.requestValues( requestTypes );
 
 	const convertToRUB = ( typeCurrency, value ) => currencies[typeCurrency] * value;
 	const onChangeInput = ( index, value ) => {
-		// Моя механика конвертации: введенное значение конвертирую в рубли, а из рублей в новую валюту.
-
 		const _index = +!index;
 		const convertedValue = convertToRUB( selectedCurrencies[index], value ) / currencies[selectedCurrencies[_index]];
 
 		converter.inputs[_index].value = parseFloat( convertedValue.toFixed( 2 ) );
 	};
 
-
-	// Инициализация селектов
 	converter.itemBoxes.forEach( ( element, index ) => {
 		converter.currentItemTexts[index].innerHTML = selectedCurrencies[index];
 
 		for (const key in currencies) {
-			// Анатолий, объясните, пожалуйста, как это работает? Я знаю, что этой функцией мы проверяем, не перебираем ли мы случаем ключ прототипа объекта, потому что
-			// они нам не нужны. Но этот перебор и так их не перебирает.
-			// Можно сделать тут console.log( key ), мы увидим только собственные ключи данного объекта.
 			if (Object.hasOwnProperty.call( currencies, key )) {
 				const newItem = document.createElement( "li" );
 				

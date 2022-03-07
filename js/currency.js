@@ -1,7 +1,17 @@
 class Currency {
 	static url = "https://www.cbr-xml-daily.ru/latest.js";
 
-	static async getValues( requestTypes ) {
+	static async startLoading() {
+		document.querySelector( ".converter__loading" ).setAttribute( "style", "display: block" );
+	}
+
+	static async stopLoading() {
+		document.querySelector( ".converter__loading" ).setAttribute( "style", "display: none" );
+	}
+
+	static async requestValues( requestTypes ) {
+		this.startLoading();
+
 		try {
 			const data = await fetch( "https://www.cbr-xml-daily.ru/latest.js" );
 			const { rates } = await data.json();
@@ -15,11 +25,16 @@ class Currency {
 				else response[type] = 0;
 			});
 
+
+			this.stopLoading();
+
 			return response;
 		}
 		catch (error) {
 			console.error( error );
 
+			this.stopLoading();
+			
 			return {
 				"RUB": 1,
 				"USD": 105.81,
